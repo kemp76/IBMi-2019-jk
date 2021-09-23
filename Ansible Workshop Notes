@@ -1,0 +1,75 @@
+IBM Ansible Course 2021-09-20
+
+Ansible Engine usually installed on Linux. Full support on RHEL 
+
+Ansible Tower is a front end GUI 
+
+
+Inventory File 
+	is a list of hosts
+	with Grouping 
+	and parameters, (eg. connection settings)
+					(eg. which Python interpreter)
+					
+Can add parameters which applies to all instances 
+
+Telling Ansible where the Inventory file is
+	several ways, but the '-i option' is recommended
+	
+.cfg configuration file used to determine many parameters
+ansible.cfg name of file, looks through several locations, finally looking here: /etc/ansible/ansible.cfg 
+best just to use the above location
+command: ansible --version 
+	shows where the cfg file is
+	
+Python Modules
+These are Idempotent, so can be run repeatedly without consequences
+https://docs.ansible.com/ansible/2.9/
+
+Ping module connects to hosts, validates Python is working and returns 'pong' if successful
+
+https://galaxy.ansible.com/ibm/power_ibmi
+	
+ANSIBLE_STDOUT_CALLBACK=minimal	
+allows a lot of information to be passed back for example SETUP
+
+
+PLAYBOOKS
+Usually we don't execute Ansible commands from commandline, we run them from Playbooks
+	in YAML format
+	An instruction for what to config to execute remotely
+'atom' is a development environment which understands the yaml layout
+
+Stu keps his madules & playbooks on GitHub
+
+Tags & Tasks can be used to categorise tasks
+
+Variables can be defined in a 'copybook' .yaml file and be pulled in using 'include_vars:' code
+
+vars_prompt is used to define variables which will be promptable,prompt: is used to define text displayed when prompting
+
+default variable type is string
+other types cn be defined specifically
+
+Facts vs Variables
+Variables are updated every time they are used but a fact is not
+
+Loops
+Anything with 'with_' at the start is a loop
+
+command "delegate_to:" localhost would set the connection to run locally
+
+Roles
+This is a collection of playbooks
+So can split a large playbook into smaller chunks. 
+Variable definitions can be taken out and placed in a role too
+A role is a folder containing other yaml file
+Within roles directory there are subfolders
+one for example is vars
+in here main.yml is the default variable 'copybook' pulled in when executing the copybook
+TASKS is the main subfolder here which is used when using the IMPORT function within another copybook
+The other subfolders can be removed if unused
+
+Default concurrancy is 5 simultaneous hostconnections
+Some Ansible users change this down or up
+16 works fine apparently
